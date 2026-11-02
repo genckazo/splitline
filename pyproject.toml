@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "splitline"
+version = "0.2.0"
+description = "One line for the game, one line for everything else — split two home internet connections by app and destination."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "All rights reserved (pre-release, see README)" }
+dependencies = []
+
+[project.scripts]
+splitline = "splitline.cli:main"
+
+[tool.setuptools]
+packages = ["splitline"]

@@ -77,3 +77,29 @@ g answered "Both / not sure yet" (2026-11-02), so both dogfood paths exist:
 `prototype/splitline.sh` (Linux) and `prototype/WINDOWS.md` (adapter metrics +
 qBittorrent binding, settings only). Whichever machine he sits at first is
 the test bed.
+
+## v0.2 — Cross-platform gamer CLI (built 2026-11-02)
+
+g asked for Linux + Windows + macOS, "more advanced", and hardened. Built as
+a stdlib-only Python package in `splitline/` with one safety engine for all
+three OSes (plan → print → `--yes` to apply → per-interface verify →
+automatic rollback on any failure; `revert` + `heal` included — see
+`SECURITY.md` for the exact guarantees and their limits):
+
+- **Linux (full strength):** bulk routing table + source rule + fwmark rule,
+  optional per-uid iptables marking (`--mark-uid`). Main table untouched.
+- **Windows (honest scope):** adapter metrics (game 10 / bulk 50) + optional
+  destination routes via the bulk gateway (`--bulk-route`) + client-binding
+  notes. No per-app routing — that still needs a driver, still excluded
+  (anti-cheat). Whole-house Windows strength remains the v1 router wizard.
+- **macOS:** namespaced pf anchor (`com.splitline`) with route-to rules for
+  named bulk destinations (`--bulk-dest`) + client binding; session-scoped
+  in v0.2, so a reboot is a clean reset.
+
+13 unit tests cover detection parsing, plan contents per OS, command-
+injection refusal, rollback on mid-apply failure, state round-trip, and
+dry-run purity. Windows/macOS backends are plan-verified by tests, not yet
+run on real Windows/Mac hardware — first dogfood runs will confirm.
+
+The router wizard stays the v1 sellable form; this CLI is the power-user /
+dogfood tier and the shared brain (detect/plan/verify) the wizard will reuse.
