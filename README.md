@@ -47,6 +47,14 @@ does not ship (anti-cheat safety). **macOS** gets a pf anchor with
 `--bulk-dest CIDR` route-to rules plus client binding; rules are
 session-scoped in v0.2, so a reboot resets them.
 
+## Desktop app (GPUI)
+
+`gui/` holds a native desktop front-end built with GPUI (Zed's Rust UI
+framework — the notesec stack). It contains no routing logic: every action
+calls the CLI above, so the safety model is shared. Pick the game line and
+the bulk line, preview the plan, apply (via `pkexec` on Linux), revert.
+Scaffold v0.1 — see `gui/README.md` for build instructions and status.
+
 ## The idea in one paragraph
 
 Downloads killing game ping is a universal complaint, and two-connection homes

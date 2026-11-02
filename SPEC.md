@@ -103,3 +103,14 @@ run on real Windows/Mac hardware — first dogfood runs will confirm.
 
 The router wizard stays the v1 sellable form; this CLI is the power-user /
 dogfood tier and the shared brain (detect/plan/verify) the wizard will reuse.
+
+## v0.2.1 — GPUI desktop app scaffold (2026-11-02, g's ask)
+
+`gui/` adds a GPUI (Rust, Zed's framework — g's notesec stack) desktop
+front-end: interface pickers for game/bulk lines, plan preview, apply via
+pkexec, status, revert. Hard rule: the GUI holds zero routing logic — it
+shells to the CLI (new `detect --json` output exists for exactly this), so
+one safety engine serves terminal and GUI alike. 14 unit tests pass.
+Scaffold is uncompiled as of this writing (no Rust toolchain in Muse's
+sandbox; saturn is the GPUI build machine) — first-build API fixes are
+expected and normal; treat `gui/` as source until a build is verified.

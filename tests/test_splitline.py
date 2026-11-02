@@ -187,5 +187,17 @@ class CliDryRunTest(unittest.TestCase):
         self.assertEqual(mutating, [], "dry run must not change routing")
 
 
+class CliJsonTest(unittest.TestCase):
+    def test_detect_json(self):
+        r = FakeRunner(linux_handler())
+        lines = []
+        rc = cli.main(["detect", "--json"], runner=r,
+                      backend=LinuxBackend(), out=lines.append)
+        self.assertEqual(rc, 0)
+        data = json.loads(lines[0])
+        self.assertEqual({d["name"] for d in data}, {"eth0", "wlan0"})
+        self.assertEqual(data[0]["gateway"], "192.168.1.1")
+
+
 if __name__ == "__main__":
     unittest.main()

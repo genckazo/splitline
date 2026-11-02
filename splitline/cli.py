@@ -8,6 +8,7 @@ per interface; a failed verification rolls everything back automatically.
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 
@@ -33,7 +34,9 @@ def build_parser():
         description="One line for the game, one line for everything else.")
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    sub.add_parser("detect", help="List network interfaces, gateways, metrics")
+    d = sub.add_parser("detect", help="List network interfaces, gateways, metrics")
+    d.add_argument("--json", action="store_true",
+                   help="Emit interfaces as JSON (used by the SplitLine GUI)")
 
     t = sub.add_parser("test", help="Check one interface reaches the internet")
     t.add_argument("iface")
@@ -63,6 +66,11 @@ def main(argv=None, runner=None, backend=None, out=print):
     try:
         if args.cmd == "detect":
             ifaces = backend.detect(runner)
+            if args.json:
+                out(json.dumps([{"name": i.name, "ip": i.ip,
+                                 "gateway": i.gateway, "metric": i.metric}
+                                for i in ifaces]))
+                return 0
             if not ifaces:
                 out("No interfaces with IPv4 addresses found.")
             for i in ifaces:

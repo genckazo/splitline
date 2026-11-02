@@ -6,4 +6,4 @@ apply, and automatically rolled back if anything fails. The tool never
 leaves a half-applied routing state behind.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
