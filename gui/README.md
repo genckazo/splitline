@@ -42,3 +42,12 @@ Scaffold v0.1 (2026-11-02). Written against the GPUI 0.2 API; **not yet
 compiled** — Muse's sandbox has no Rust toolchain. First build is expected
 on saturn (where notesec builds). Expect the usual first-build API fixes;
 the layout and CLI wiring are the substance of this scaffold.
+
+## Build note: vendored `xattr` patch
+
+The first saturn build (2026-11-02) failed inside `xattr 0.2.3` (pulled in
+by GPUI's `zed-async-tar`): current `libc` no longer exports `ENOATTR` on
+Linux. `vendor/xattr/` is upstream 0.2.3 with a one-line-class fix
+(`ENOATTR = ENODATA` on Linux), wired via `[patch.crates-io]` in
+`Cargo.toml`. Details in `vendor/xattr/README.md`. Delete the patch once
+the upstream tree builds clean without it.

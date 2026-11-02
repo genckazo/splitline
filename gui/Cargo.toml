@@ -12,3 +12,11 @@ serde_json = "1"
 
 [profile.release]
 opt-level = 2
+
+# `zed-async-tar` (inside GPUI 0.2's tree) pins `xattr = "0.2"`, whose 0.2.3
+# release no longer compiles against current `libc` on Linux (ENOATTR was
+# removed; on Linux it is ENODATA). The vendored copy in vendor/xattr is
+# upstream 0.2.3 with exactly that one-line-class fix. Remove both the patch
+# and the vendor directory once the tree builds without it.
+[patch.crates-io]
+xattr = { path = "vendor/xattr" }
